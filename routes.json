@@ -1,0 +1,45 @@
+{
+	"title": "Routes",
+	"routes": {
+		"north": {
+			"wp1": {
+				"lat":  ""
+				"long": ""
+			}
+			"wp2": {
+				"lat":  ""
+				"long": ""
+			}
+		}
+		"south": {
+			"wp1": {
+				"lat":  ""
+				"long": ""
+			}
+			"wp2": {
+				"lat":  ""
+				"long": ""
+			}
+		}
+		"east": {
+			"wp1": {
+				"lat":  ""
+				"long": ""
+			}
+			"wp2": {
+				"lat":  ""
+				"long": ""
+			}
+		}
+		"west": {
+			"wp1": {
+				"lat":  ""
+				"long": ""
+			}
+			"wp2": {
+				"lat":  ""
+				"long": ""
+			}
+		}
+	}
+}
