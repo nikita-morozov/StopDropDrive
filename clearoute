@@ -1,0 +1,134 @@
+"use strict";
+/**
+ *Nikita Morozov
+ *HW 3 Section AI - Austin Weale
+ *JavaScript for a Speed Reader website
+ */
+var counter = -1;
+var timer = null;
+var inputArray = [];
+var speedMS = 171;
+
+//Declares EventHandlers and begins the javascript
+window.onload = function(){
+    document.getElementById("start").onclick = run;
+    document.getElementById("stop").onclick = stop;
+    var speedArray = document.querySelectorAll('#dropdown');
+    for(var i = 0; i < speedArray.length; i++){
+        speedArray[i].onclick = speed;
+    }
+    var sizeArray = document.querySelectorAll('.size');
+    for(var j = 0; j < sizeArray.length; j++){
+        sizeArray[i].onclick = size;
+    }
+};
+
+//Responsible for creating an Array from the user "input Text"
+//Uses Nodelist to populate the Array with "blank" frames from punctuation
+function populateArray() {
+    console.log("populating");
+    inputArray = [];
+    var inputText = document.getElementById("inputText").value;
+    var temp = ""; //temporary variable for current word
+    inputText = inputText.split(/[ \t\n]+/);
+    for (var k = 0; k < inputText.length; k++) {
+        temp = inputText[k];
+        if (temp.endsWith(".") === true) {
+            temp = temp.substring(0, temp.lastIndexOf("."));
+            inputArray.push(temp);
+            inputArray.push("");
+
+        } else if (temp.endsWith(",") === true) {
+            temp = temp.substring(0, temp.lastIndexOf(","));
+            inputArray.push(temp);
+            inputArray.push("");
+
+        } else if (temp.endsWith("!") === true) {
+            temp = temp.substring(0, temp.lastIndexOf("!"));
+            inputArray.push(temp);
+            inputArray.push("");
+
+        } else if (temp.endsWith("?") === true) {
+            temp = temp.substring(0, temp.lastIndexOf("?"));
+            inputArray.push(temp);
+            inputArray.push("");
+
+        } else if (temp.endsWith(";") === true) {
+            temp = temp.substring(0, temp.lastIndexOf(";"));
+            inputArray.push(temp);
+            inputArray.push("");
+
+        } else if (temp.endsWith(":") === true) {
+            temp = temp.substring(0, temp.lastIndexOf(":"));
+            inputArray.push(temp);
+            inputArray.push("");
+
+        } else {
+            inputArray.push(temp);
+        }
+    }
+}
+
+//Updates frame speed
+function speed() {
+    speedMS = document.getElementById("dropdown").value;
+}
+
+//Responsible for starting the sequence of frames
+function run(){
+    populateArray();
+    if(timer === null){
+        timer = setInterval(displayWord,speedMS);
+    }else{
+        stop();
+    }
+}
+
+//Stops the frame sequence and resets all variables/GUI
+function stop(){
+    if(timer === null){
+    }else{
+        clearInterval(timer);
+        timer = null;
+        counter = -1;
+        document.getElementById("outputText").innerHTML = "";
+        document.getElementById("start").disabled = false;
+        document.getElementById("stop").disabled = true;
+    }
+
+}
+
+//Shows the current word in the "output" textbox while checking for
+//changes in the size/speed variables.
+function displayWord(){
+    var frame = counter;
+    stop();
+    counter = frame;
+    run();
+    size();
+    speed();
+    counter++;
+    document.getElementById("start").disabled = true;
+    document.getElementById("stop").disabled = false;
+    document.getElementById("outputText").innerHTML = inputArray[counter];
+    if(counter == inputArray.length){
+        stop();
+    }
+}
+
+//Updates the font size of the "output" text to selected radio value
+function size(){
+    var sizeArray = document.querySelectorAll('.size');
+    for(var i = 0; i < sizeArray.length; i++){
+        if(sizeArray[i].checked === true){
+            var outputFontSize = document.getElementById("outputText");
+            if(sizeArray[i].value == "Medium"){
+                outputFontSize.style.fontSize = "36pt";
+            }else if(sizeArray[i].value == "Big"){
+                outputFontSize.style.fontSize = "48pt";
+            }else{
+                outputFontSize.style.fontSize = "60pt";
+            }
+        }
+    }
+}
